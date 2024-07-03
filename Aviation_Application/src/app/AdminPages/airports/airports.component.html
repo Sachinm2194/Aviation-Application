@@ -1,0 +1,192 @@
+<!-- airport.component.html -->
+<app-header></app-header>
+<div class="main-container">
+  <div class="sidebar">
+    <app-side-bar></app-side-bar>
+  </div>
+  <div class="content">
+    <div class="container mt-5" style="background-color: #f8f9fa;">
+      <h2 class="text-center mb-4">Airports Details</h2>
+      <button type="button" class="btn btn-primary mb-3" (click)="toggleAddFlightForm()">Add New Flight</button>
+
+
+      <!-- Add New Airport Form -->
+       @if(showAddFlightForm){
+      <div class="card form-container">
+        <div class="card-header">Add New Airport</div>
+        <div class="card-body">
+          <form #airportForm="ngForm" >
+            <div class="form-group">
+              <label for="airportName">Airport Name:</label>
+              <input type="text" class="form-control" id="airportName" placeholder="Enter Airport Name" required name="airportName" ngModel/>
+            </div>
+            <div class="form-group">
+              <label for="airportCode">Airport Code (3 Letters):</label>
+              <input type="text" class="form-control" id="airportCode" placeholder="Enter Airport Code" required name="airportCode" ngModel/>
+            </div>
+            <div class="form-group">
+              <label for="country">Country:</label>
+              <input type="text" class="form-control" id="country" placeholder="Enter Country" required name="country" ngModel/>
+            </div>
+            <div class="form-group">
+              <label for="country">Country Code (2 Letters):</label>
+              <input type="text" class="form-control" id="countryCode" placeholder="Enter Country Code" required name="countryCode" ngModel/>
+            </div>
+            <div class="form-group">
+              <label for="timeZone">Timezone:</label>
+              <input type="text" class="form-control" id="timeZone" placeholder="Enter TimeZone" required name="timeZone" ngModel/>
+            </div>
+            
+            <div class="form-group">
+              <label for="latitude">Latitude:</label>
+              <input type="number" class="form-control" id="latitude" placeholder="Enter Latitude" required name="latitude" ngModel/>
+            </div>
+            <div class="form-group">
+              <label for="longitude">Longitude:</label>
+              <input type="number" class="form-control" id="longitude" placeholder="Enter Longitude" required name="longitude" ngModel/>
+            </div>
+            <div class="form-group">
+              <label for="iataregion">Iata Region:</label>
+              <input type="text" class="form-control" id="iataregion" placeholder="Enter IATA Region" required name="iataregion" ngModel/>
+            </div>
+            <div class="form-group">
+              <label for="elevation">Elevation:</label>
+              <input type="text" class="form-control" id="elevation" placeholder="Enter elevation" required name="elevation" ngModel/>
+            </div>
+            <button type="submit" class="btn btn-success mt-2" (click)="addNewAirport(airportForm)">Add Airport</button>
+          </form>
+        </div>
+      </div> 
+    }
+
+      <!-- Display Airports Table -->
+      <div class="card mt-4 table-container">
+        <div class="card-header">List of Airports</div>
+        <div class="card-body">
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th>Airport Name</th>
+                <th>Airport Code</th>
+                <th>Country</th>
+                <th>Country Code</th>
+                <th>Timezone</th>
+                <th>Latitude</th>
+                <th>Longitude</th>
+                <th>IATA</th>
+                <th>Elevation</th>
+                <th style="text-align: end;">Actions</th>
+              </tr>
+            </thead>
+            <tbody id="airportList">
+              <!-- Airport data will be dynamically populated here -->
+               @for(airport of allAirports ;track airport ){
+              <tr>
+                <td>{{airport.airportName}}</td>
+                <td>{{airport.airportCode}}</td>
+                <td>{{airport.country}}</td>
+                <td>{{airport.countryCode}}</td>
+                <td>{{airport.timeZone}}</td>
+                <td>{{airport.latitude}}</td>
+                <td>{{airport.latitude}}</td>
+                <td>{{airport.iataregion}}</td>
+                <td>{{airport.elevation}}</td>
+                <td class="text-end">
+                    <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#editModal" (click)="onEditAirport(airport)">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-fill" viewBox="0 0 16 16">
+                        <path d="M12.854.146a.5.5 0 0 0-.707 0L10.5 1.793 14.207 5.5l1.647-1.646a.5.5 0 0 0 0-.708zm.646 6.061L9.793 2.5 3.293 9H3.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.207zm-7.468 7.468A.5.5 0 0 1 6 13.5V13h-.5a.5.5 0 0 1-.5-.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.5-.5V10h-.5a.5.5 0 0 1-.175-.032l-.179.178a.5.5 0 0 0-.11.168l-2 5a.5.5 0 0 0 .65.65l5-2a.5.5 0 0 0 .168-.11z"/>
+                      </svg>
+                    </button>
+                    <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModalCenter" style="margin-left: 10px;" (click)="onDeleteModal(airport)">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash-fill" viewBox="0 0 16 16">
+                        <path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5M8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5m3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0"/>
+                      </svg>
+                    </button>
+                  </td>
+              </tr>
+            }
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Edit and Delete Modals -->
+      <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+          <div class="modal-content">
+            <div class="modal-header d-flex justify-content-between">
+              <h5 class="modal-title" id="editModalLabel">Edit Airport</h5>
+              <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <form #editForm="ngForm">
+                <div class="form-group">
+                  <label for="airportName">Airport Name:</label>
+                  <input type="text" class="form-control" id="airportName" placeholder="Enter Airport Name" required name="airportName" ngModel />
+                </div>
+                <div class="form-group">
+                  <label for="country">Country:</label>
+                  <input type="text" class="form-control" id="country" placeholder="Enter Country" required name="country" ngModel />
+                </div>
+                <div class="form-group">
+                  <label for="countryCode">Country Code:</label>
+                  <input type="text" class="form-control" id="countryCode" placeholder="Enter Country Code" required name="countryCode" ngModel />
+                </div>
+                <div class="form-group">
+                  <label for="timeZone">TimeZone:</label>
+                  <input type="text" class="form-control" id="timeZone" placeholder="Enter TimeZone" required name="timeZone" ngModel />
+                </div>
+                <div class="form-group">
+                  <label for="latitude">Latitude:</label>
+                  <input type="number" class="form-control" id="latitude" placeholder="Enter Latitude" required name="latitude" ngModel />
+                </div>
+                <div class="form-group">
+                  <label for="longitude">Longitude:</label>
+                  <input type="number" class="form-control" id="longitude" placeholder="Enter Longitude" required name="longitude" ngModel />
+                </div>
+                <div class="form-group">
+                  <label for="iataregion">IATA Region:</label>
+                  <input type="text" class="form-control" id="iataregion" placeholder="Enter IATA Region" required name="iataregion" ngModel />
+                </div>
+                <div class="form-group">
+                  <label for="elevation">Elevation:</label>
+                  <input type="number" class="form-control" id="elevation" placeholder="Enter Elevation" required name="elevation" ngModel />
+                </div>
+              </form>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+              <button type="button" class="btn btn-success" (click)="saveChanges(editForm)">Save changes</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+          <div class="modal-content">
+            <div class="modal-header d-flex justify-content-between">
+              <h5 class="modal-title" id="exampleModalLongTitle">Delete Airline</h5>
+              <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            
+            <div class="modal-body" id="deleteConfirmationBody">
+              <!-- Airline details will be dynamically populated here -->
+               
+              <p> Are sure to Delete The airport , AirportCode : {{deletAirportCode}}</p>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+              <button type="button" class="btn btn-danger" id="confirmDeleteBtn" (click)="onDelete()">Delete</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- These modals will be similar to what you had for Airlines CRUD -->
+    </div>
+  </div>
+</div>

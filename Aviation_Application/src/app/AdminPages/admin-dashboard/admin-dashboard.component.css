@@ -1,0 +1,139 @@
+body, html {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  font-family: Arial, sans-serif;
+}
+
+.app-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 60px;
+  background-color: #333;
+  color: white;
+  z-index: 1000; /* Ensure the header appears above other content */
+}
+.parent {
+  /* margin-top: 60px; Adjust for header height */
+  height: calc(100vh - 60px); /* Full height minus header */
+  display: flex;
+  flex-direction: column;
+}
+
+.main-body {
+  margin-top: 60px;
+  display: flex;
+  flex: 1; /* Take remaining space */
+}
+
+.part1 {
+  background-color: rgb(238, 238, 238);
+  height: 100%;
+  overflow-y: hidden; /* Hide vertical scrollbar */
+  padding: 10px;
+  border-right: 2px solid #ddd; 
+}
+
+.part2 {
+  flex: 1; /* Take remaining space */
+  overflow-y: auto;
+  padding: 10px;
+  margin-left: 0;
+  height: 100%;
+}
+
+.sidebar-lists {
+  padding: 0;
+  margin: 10px;
+}
+
+.sidebar-list {
+  margin-left: 10px;
+  color: #FC790D;
+  font-size: 20px;
+  font-weight: bold;
+  padding: 10px 0;
+}
+
+.custom-button {
+  background: none;
+  border: none;
+  padding: 0;
+  font: inherit;
+  color: inherit;
+  cursor: pointer;
+  outline: none;
+  text-align: left;
+  width: 100%;
+}
+
+.custom-button:hover {
+  text-decoration: underline;
+}
+
+.bar-chart-container {
+  width: 90%;
+  margin: 30px auto;
+  z-index: 1;
+}
+
+
+.bar-chart {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  height: 500px;
+  background: #f8f9fa;
+  border: 1px solid #dee2e6;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  z-index: 999; 
+}
+.bar {
+  position: relative;
+  width: 6%;
+  background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+  border-radius: 5px 5px 0 0;
+  transition: background 0.3s, transform 0.3s;
+}
+
+.bar:hover {
+  background: linear-gradient(135deg, #f5576c 0%, #f093fb 100%);
+  transform: translateY(-10px);
+}
+
+.bar span {
+  position: absolute;
+  top: -25px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #343a40;
+  color: #fff;
+  padding: 5px 10px;
+  border-radius: 5px;
+  white-space: nowrap;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.bar:hover span {
+  opacity: 1;
+}
+
+.axis {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+}
+
+.axis-label {
+  width: 6%;
+  text-align: center;
+  font-size: 14px;
+  line-height: 1.2;
+}
+
+

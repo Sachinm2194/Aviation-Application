@@ -1,0 +1,55 @@
+/* sidebar.component.css */
+app-header{
+    z-index: 1;
+}
+.sidebar {
+    width: 200px;
+    height: calc(100vh - 60px); /* Adjust based on your header height */
+    background-color: #f0f0f0;
+    padding: 20px;
+    position: fixed;
+    top: 60px; /* Adjust based on your header height */
+    left: 0;
+    bottom: 0;
+    z-index: -1;
+
+  }
+  
+  .sidebar-lists {
+    padding: 0;
+    margin: 0;
+  }
+  
+  .sidebar-list {
+    cursor: pointer;
+    margin-left: 10px;
+    color: #FC790D;
+    font-size: 20px;
+    font-weight: bold;
+    padding: 10px 0;
+  }
+  
+  .sidebar-list:hover {
+    background-color: #e0e0e0;
+  }
+  
+  .custom-button {
+    background: none;
+    border: none;
+    padding: 0;
+    font: inherit;
+    color: inherit;
+    cursor: pointer;
+    outline: none;
+    text-align: left;
+    width: 100%;
+  }
+  
+  .part1 {
+    background-color: rgb(238, 238, 238);
+    height: 100%;
+    overflow-y: hidden; /* Hide vertical scrollbar */
+    padding: 10px;
+    border-right: 2px solid #ddd;
+  }
+  

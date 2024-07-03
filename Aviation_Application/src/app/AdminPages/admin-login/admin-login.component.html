@@ -1,0 +1,24 @@
+<!-- login.component.html -->
+<div class="body">
+    <div class="parent" style="margin-top: 150px; margin-left: 550px;">
+      <div class="wrapper">
+        <div class="title">
+          Login Form
+        </div>
+        <form (ngSubmit)="onAdminLogin(adminForm)" #adminForm="ngForm">
+          <div class="field">
+            <input type="text" name="email" ngModel required>
+            <label>Email Address</label>
+          </div>
+          <div class="field">
+            <input type="password" name="password" ngModel required>
+            <label>Password</label>
+          </div>
+          <div class="field mt-5">
+            <input type="submit" value="Login">
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  

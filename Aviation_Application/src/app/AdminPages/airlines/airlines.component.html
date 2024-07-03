@@ -1,0 +1,164 @@
+<!-- app.component.html -->
+<app-header></app-header>
+<div class="main-container">
+  <div class="sidebar">
+    <app-side-bar></app-side-bar>
+  </div>
+  <div class="content">
+    <div class="container mt-5" style="background-color: #f8f9fa;">
+      <h2 class="text-center mb-4 " style="background-color: #fc790d; margin-top: -20px; border-radius:  20px;"> <br> International Airlines </h2>
+      <button type="button" class="btn btn-primary mb-3" (click)="toggleAddFlightForm()">Add New Flight</button>
+
+      <!-- Add New Airline Form -->
+       @if(showAddFlightForm){
+      <div class="card form-container">
+        <div class="card-header">Add New Airline</div>
+        <div class="card-body">
+          <form #airlineForm="ngForm" >
+            <div class="form-group">
+              <label for="airlineName">Airline Name:</label>
+              <input
+                type="text"
+                class="form-control"
+                id="airlineName"
+                placeholder="Enter Airline Name"
+                required
+                name="airlineName"
+                ngModel
+              />
+            </div>
+            <div class="form-group">
+              <label for="flightNumber">Flight Number:</label>
+              <input
+                type="text"
+                class="form-control"
+                id="flightNumber"
+                placeholder="Enter Flight Number"
+                required
+                name="flightNumber"
+                ngModel
+              />
+            </div>
+            <div class="form-group">
+              <label for="details">Details:</label>
+              <textarea
+                class="form-control"
+                id="details"
+                rows="3"
+                placeholder="Enter Details"
+                name="details"
+                ngModel
+              ></textarea>
+            </div>
+            <button type="submit" class="btn btn-success mt-2" (click)="onSubmit(airlineForm)">Add Airline</button>
+          </form>
+        </div>
+      </div>}
+      
+
+      <!-- Display Airlines Table -->
+      <div class="card mt-4 table-container">
+        <div class="card-header">List of Airlines</div>
+        <div class="card-body">
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th>Airline Name</th>
+                <th>Flight Number</th>
+                <th>Details</th>
+                <th style="text-align: end;">Actions</th>
+              </tr>
+            </thead>
+            <tbody id="airlineList">
+              <!-- Airline data will be dynamically populated here -->
+              @for(airline of allAirlines;track airline)
+              {
+              <tr>
+                
+                <td>{{airline.airlineName}}</td>
+                <td>{{airline.flightNumber}}</td>
+                <td>{{airline.details}}</td>
+              
+                <td class="text-end">
+                  <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#editModal">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-fill" viewBox="0 0 16 16" (click)="onEdit(airline)">
+                      <path d="M12.854.146a.5.5 0 0 0-.707 0L10.5 1.793 14.207 5.5l1.647-1.646a.5.5 0 0 0 0-.708zm.646 6.061L9.793 2.5 3.293 9H3.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.207zm-7.468 7.468A.5.5 0 0 1 6 13.5V13h-.5a.5.5 0 0 1-.5-.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.5-.5V10h-.5a.5.5 0 0 1-.175-.032l-.179.178a.5.5 0 0 0-.11.168l-2 5a.5.5 0 0 0 .65.65l5-2a.5.5 0 0 0 .168-.11z"/>
+                    </svg>
+                  </button>
+                  <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModalCenter" style="margin-left: 10px;" (click)="onDeleteModal(airline)">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash-fill" viewBox="0 0 16 16">
+                      <path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5M8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5m3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0"/>
+                    </svg>
+                  </button>
+                </td>
+              </tr>
+            }
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Edit Modal -->
+      <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+          <div class="modal-content">
+            <div class="modal-header d-flex justify-content-between">
+              <h5 class="modal-title" id="editModalLabel">Edit Airline</h5>
+              <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <form id="editForm" #editForm="ngForm" (ngSubmit)="saveChanges(editForm)">
+                <div class="form-group">
+                  <label for="editAirlineName">Airline Name:</label>
+                  <input type="text" class="form-control" id="editAirlineName" placeholder="Enter Airline Name" required  name= "name" ngModel
+                  />
+                </div>
+                <div class="form-group">
+                  <label for="editFlightNumber">Flight Number:</label>
+                  <input type="text" class="form-control" id="editFlightNumber" placeholder="Enter Flight Number" required value="{{deleteFlightID}} " disabled  name="flightNumber" ngModel/>
+                </div>
+                <!-- <p> {{editAirline.flightNumber}} -->
+                <!-- </p> -->
+
+                <div class="form-group">
+                  <label for="editDetails">Details:</label>
+                  <textarea class="form-control" id="editDetails" rows="3" placeholder="Enter Details" name="details" ngModel ></textarea>
+                </div>
+              </form>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+              <button type="submit" class="btn btn-success" (click)="saveChanges(editForm)">Save changes</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Delete Modal -->
+      <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+          <div class="modal-content">
+            <div class="modal-header d-flex justify-content-between">
+              <h5 class="modal-title" id="exampleModalLongTitle">Delete Airline</h5>
+              <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            
+            <div class="modal-body" id="deleteConfirmationBody">
+              <!-- Airline details will be dynamically populated here -->
+               
+              <p> Are sure to Delete The airline {{editFlightNumber}}</p>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+              <button type="button" class="btn btn-danger" id="confirmDeleteBtn" (click)="onDelete()">Delete</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

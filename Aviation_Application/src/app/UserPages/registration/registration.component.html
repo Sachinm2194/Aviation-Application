@@ -1,0 +1,35 @@
+<div class="parent m-0 p-0">
+  <div class="overlay"></div>
+  <amplify-authenticator
+    [loginMechanisms]="['email']"
+    [formFields]="formFields"
+    [signUpAttributes]="['name']"
+    class="form-container"
+  >
+    <ng-template
+      amplifySlot="authenticated"
+      let-user="user"
+      let-signOut="signOut"
+      class="formBody"
+    >
+      @if(user) {
+      <div>{{ home(user) }}</div>
+      }
+      <h1>Welcome {{ user.username }}!</h1>
+      <h1>Welcome {{ user }}!</h1>
+      <h1>Welcome :{{ userName }}</h1>
+
+      <button (click)="signOut()">Sign Out</button>
+    </ng-template>
+  </amplify-authenticator>
+  <div class="btn-group dropend" style="margin-top: 380px;">
+    <button type="button" class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+      
+    </button>
+    <ul class="dropdown-menu">
+      <button class="btn" (click)="onAdmin()">Admin</button>
+
+    </ul>
+  </div>
+  <!-- <button type="button" class="btn btn-primary">Primary</button> -->
+</div>

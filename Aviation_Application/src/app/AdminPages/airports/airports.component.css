@@ -1,0 +1,66 @@
+/* airport.component.css */
+app-header{
+    z-index: 1;
+    position: fixed;
+    width: 100% ;
+}
+app-side-bar{
+    z-index: -1;
+}
+.main-container {
+    display: flex;
+    height: calc(100vh - 60px); /* Adjust based on your header height */
+  }
+  
+  .sidebar {
+    width: 200px; /* Adjust based on your sidebar width */
+    background-color: #f0f0f0;
+    height: 100%;
+    position: fixed;
+    top: 60px; /* Adjust based on your header height */
+    left: 0;
+    bottom: 0;
+    padding: 20px;
+  }
+  
+  .content {
+    flex-grow: 1;
+    margin-left: 200px; /* Adjust based on your sidebar width */
+    padding: 20px;
+    overflow-y: auto;
+  }
+  
+  .container {
+    margin-top: 50px;
+  }
+  
+  .card {
+    border: none;
+    border-radius: 15px;
+    box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1);
+  }
+  
+  .card-header {
+    background-color: #fc790d;
+    color: #fff;
+    border-radius: 15px 15px 0 0;
+  }
+  
+  .card-body {
+    padding: 30px;
+  }
+  
+  .btn-action {
+    margin-right: 10px;
+  }
+  
+  @media (max-width: 768px) {
+    .container {
+      margin-top: 20px;
+    }
+  
+    .card {
+      margin-bottom: 20px;
+    }
+  }
+  

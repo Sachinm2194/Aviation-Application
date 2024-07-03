@@ -1,0 +1,77 @@
+<app-header ></app-header>  <br> <br>
+
+@if(filterBookingsBasedOnUser.length!=0){
+@for(booking of filterBookingsBasedOnUser ; track booking){
+<div class=" border  rounded m-4" >
+    
+    <div class="row m-2">
+        
+        @if(booking.bookingClass=='Business'){
+            <div class="businnes-icon" style="text-align: end;"> 
+                <img src="../../../assets/Images/business-icon.png" alt="B" width="20px">
+            </div>
+        }
+        <img src="../../../assets/flight logo.png" alt="image" style="width: 80px;">
+        
+        <div class="col-sm-3 cols">
+            <p class="headers">From</p>
+            <p style="font-weight: bold;">{{booking.departureAirport}}</p>
+            <p>{{booking.departureAirportName}}</p>
+        </div>
+        <div class="col-sm-3 cols">
+            <p class="headers">To</p>
+            <p style="font-weight: bold;">{{booking.arrivalAirport}}</p>
+            <p>{{booking.arrivalAirportName}}</p>
+
+        </div>
+        <div class="col-sm-2 cols">
+            <p class="headers">Departure</p>
+            <p style="font-weight: bold;">{{booking.departureDate| date:'dd-MM-yyyy'}}</p>
+            <p>{{booking.departureTime}}</p>
+
+        </div>
+        <div class="col-sm-1 cols">
+            <p class="headers">No. of Tickets</p>
+            <p style="font-weight: bold;">{{booking.numberOfTickets}}</p>
+        </div>
+        <div class="col-sm-1 cols">
+            <p class="headers">Total Price </p>
+            <p>{{booking.totalPrice}}</p>
+
+            <!-- @if(booking.bookingClass=='Business'){
+                <div class="businnes-icon" style="text-align: end;"> 
+                    <img src="../../../assets/Images/business-icon.png" alt="B" width="20px">
+                </div>
+            } -->
+
+        </div>
+        <div class=" col-sm-1 buttons m-2" >
+            <button class="btn border rounded btn-warning" style="width: 120px; margin-bottom:5px;" (click)="onReschedule(booking)">Reschedule</button>
+            <button class="btn border rounded btn-danger" style="width: 120px; margin-top: 5px;"  (click)="onCancel(booking)">Cancel</button>
+        </div>
+    </div>
+    </div>
+
+} 
+}@else{
+    <div class="noBookings" style=" margin-top: 200px; text-align: center; font-size: 40px;">
+        <p > No Bookings Available.</p>
+    <img src="../../../assets/Images/sad.svg" alt="" width="50px">
+    </div>
+    
+    
+}
+<div id="cancelToast" class="toast-container position-fixed top-5 end-0 p-3" style="z-index: 1050;">
+    <div class="toast" role="alert" aria-live="assertive" aria-atomic="true" [ngClass]="{ 'show': isToastVisible }">
+      <div class="toast-header">
+        <strong class="me-auto"><i class="bi bi-bell text-warning"></i>Notification</strong>
+        <button type="button" class="btn-close" (click)="hideToast()" aria-label="Close"></button>
+      </div>
+      <div class="toast-body">
+        Your Booking Cancelled Successfully.
+    <p> Booking Id: {{canceledBookingId}}</p>
+        
+      </div>
+    </div>
+  </div>
+  

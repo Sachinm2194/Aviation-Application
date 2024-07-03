@@ -1,0 +1,143 @@
+
+.parent {
+    background-image: url("../../../assets/Images/homeBG.png");
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.image {
+    text-align: center;
+}
+
+.image img {
+    width: 60%;
+}
+
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+.wrapper {
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 30px;
+    max-width: 600px;
+    width: 100%;
+    margin: 20px;
+}
+
+.form-body {
+    margin: 20px 20px;
+}
+.left-content{
+    margin: 20px 20px;
+
+}
+
+.margin {
+    margin: 10px 0;
+}
+
+.form-group {
+    position: relative;
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    font-weight: bold;
+    margin-bottom: 5px;
+    display: block;
+}
+
+.form-group input, 
+.form-group select {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-shadow: none;
+}
+
+.form-group .fas {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.btn-primary {
+    background-color: #007bff;
+    border-color: #007bff;
+    padding: 10px 20px;
+    font-size: 16px;
+    width: 100%;
+    border-radius: 5px;
+}
+
+.btn-primary:hover {
+    background-color: #0056b3;
+    border-color: #004085;
+}
+
+.option {
+    margin-right: 20px;
+}
+
+.border-bottom {
+    border-bottom: 1px solid #ddd;
+}
+
+a.text-decoration-none {
+    color: #007bff;
+}
+
+a.text-decoration-none:hover {
+    text-decoration: underline;
+}
+.form-container {
+    border: 1px solid rgb(176, 241, 249);
+    box-shadow: 0 0 10px rgb(176, 241, 249);
+}
+.left-content h2 {
+    font-size: 80px; 
+
+}
+.left-content p {
+    font-size: 14px;
+}
+
+/*******************************************/
+.right-content {
+    margin: 20px 20px;
+    width: 45%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.btn {
+    width: 80%;
+    display: block;
+    background-color: rgb(88, 211, 227); 
+    border: none;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(255, 126, 185, 0.5); 
+    color: #fff; 
+    font-size: 60px; 
+    padding: 10px 0; 
+    margin: 20px 0;
+    cursor: pointer;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
+}
+
+.btn:hover {
+    background-color: #5dceff; 
+    box-shadow: 0 0 15px rgba(65, 64, 64, 0.7); 
+    transform: scale(1.05); 
+}

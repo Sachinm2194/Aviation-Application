@@ -1,0 +1,390 @@
+<div class="parent">
+  <app-header class="header" />
+  <div class="d-flex justify-content-between form-container parent-child">
+    
+    <div class="wrapper border border-secondary">
+      <form (ngSubmit)="onSubmit()" #flightForm="ngForm" class="form-body">
+        <div class="form-group d-sm-flex margin">
+          <div
+            class="d-flex align-items-center flex-fill me-sm-1 my-sm-0 my-4 position-relative"
+          >
+            <select
+              name="from"
+              [(ngModel)]="from"
+              required
+              class="form-control custom-select fixed-width-dropdown"
+            >
+              <option value="" disabled selected>From</option>
+              @for( airport of allInternationalAirports;track airport){
+              <option>
+                {{ airport.airportName }}
+              </option>
+              }
+            </select>
+            <div class="label" id="from"></div>
+            <span class="fas fa-dot-circle text-muted"></span>
+          </div>
+          <div
+            class="d-flex align-items-center flex-fill ms-sm-1 my-sm-0 my-4 position-relative"
+          >
+            <select
+              name="to"
+              [(ngModel)]="to"
+              required
+              class="form-control custom-select"
+            >
+              <option value="" disabled selected>To</option>
+              @for( airport of allInternationalAirports;track airport){
+              <option>
+                {{ airport.airportName }}
+              </option>
+              }
+            </select>
+            <div class="label" id="to"></div>
+            <span class="fas fa-map-marker text-muted"></span>
+          </div>
+        </div>
+        <div class="form-group d-sm-flex margin">
+          <div
+            class="d-flex align-items-center flex-fill me-sm-1 my-sm-0 my-4 position-relative"
+          >
+            <input
+              type="date"
+              name="departDate"
+              [(ngModel)]="departDate"
+              required
+              placeholder="Depart Date"
+              class="form-control"
+            />
+            <div class="label" id="depart"></div>
+          </div>
+        </div>
+        <div class="form-group d-flex align-items-center position-relative">
+          <input
+            type="text"
+            name="travellers"
+            [(ngModel)]="travellers"
+            placeholder="Traveller(s)"
+            class="form-control"
+            required
+          />
+          <div class="label" id="psngr"></div>
+          <span class="fas fa-users text-muted"></span>
+        </div>
+        <div class="classes fs-5" >
+          <label class="options ">
+            <input type="radio" name="option" value="Economy" [(ngModel)]="selectedOption"  >
+            Economy
+          </label>
+          <label class="options" style="margin-left: 60px;">
+            <input type="radio" name="option" value="Business" [(ngModel)]="selectedOption">
+            Business
+          </label>
+        </div>
+        <div class="form-group my-3">
+          <button
+            type="submit"
+            class="btn btn-primary rounded-0 d-flex justify-content-center text-center p-3 rounded-1"
+            style="background-color: #fc790d"
+            [disabled]="!flightForm.valid"
+            (click)="onSearch()"
+          >
+            Search
+          </button>
+        </div>
+      </form>
+    </div>
+    <div class="left-content">
+      <h2></h2>
+      <br />
+      <p style="font-size: 40px; color: rgb(227, 88, 215)"></p>
+    </div>
+  </div>
+</div>
+<!-- Search col-2 flights -->
+<div class="container-fluid slidbar">
+  <div class="row w-100 d-flex justify-content-center">
+    <div class="col-sm-3">
+      <div class="slideBarBody m-2 border shadow p-3">
+        <div class="d-flex justify-content-between fs-5">
+          <p class="slideBodyHeader" id="Filter">
+            <strong>Filter</strong>
+          </p>
+          <button
+            class="slideBodyHeader"
+            id="ClearAll"
+            style="color: #fc790d; border: none; background-color: transparent"
+          >
+            <strong (click)="clearAll()">Clear All</strong>
+          </button>
+        </div>
+        <hr />
+        <div class="filter">
+          <div class="filterContent">
+            <div class="mt-5">
+              <label for="customRange1" class="form-label"
+                ><strong>Price</strong></label
+              >
+              <input
+                type="range"
+                class="form-range"
+                id="customRange1"
+                [(ngModel)]="selectedPrice"
+                (input)="updateRangeValue($event)"
+                min="5000"
+                max="99999"
+              />
+              <p id="rangeValue" class="mt-2">
+                {{ selectedPrice !== null ? selectedPrice : "5000" }}
+              </p>
+            </div>
+          </div>
+
+          <div class="filterContent">
+            <div class="mt-5">
+              <p><strong>Departure Time</strong></p>
+              <div class="row mt-4">
+                @for( time of departureTimes ;track time){
+                  
+                <button
+                  type="button"
+                  class="btn bg-light rounded m-1 fs-6"
+                  style="width: 105px; height: 60px"
+                  (click)="onTimeSchedule(time)"
+                >
+                  <p style="font-size: 15px">{{ time.label }}</p>
+                  <p style="font-size: 10px">{{ time.timing }}</p>
+                </button>
+                }
+              </div>
+            </div>
+          </div>
+          
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-8">
+      <div class="slideBarBody m-2 border shadow p-3">
+        <div class="d-flex justify-content-between">
+          <p class="slideBodyHeader" id="Filter">
+            <strong>Sort</strong>
+          </p>
+        </div>
+        <hr />
+        <div
+          class="row rounded shadow width-100 border d-flex justify-content-between mt-4"
+        >
+          <div class="d-flex flex-grow-1">
+            <button
+              class="btn sortings fs-5 flex-grow-1"
+              style="
+                text-align: center;
+                border-right: 1px solid rgb(227, 224, 224);
+                border-radius: 0%;
+              "
+              (click)="sortByPrice()"
+            >
+              Price
+            </button>
+            <button
+              class="btn sortings fs-5 flex-grow-1"
+              style="
+                text-align: center;
+                border-right: 1px solid rgb(227, 224, 224);
+                border-radius: 0%;
+              "
+              (click)="sortByFastest()"
+            >
+              Fastest
+            </button>
+            <button
+              class="btn sortings fs-5 flex-grow-1"
+              style="
+                text-align: center;
+                border-right: 1px solid rgb(227, 224, 224);
+                border-radius: 0%;
+              "
+              (click)="sortByDepartureTime()"
+            >
+              Departure Time
+            </button>
+          </div>
+        </div>
+        <div class="schedule-container">
+          @for(airline of filteredAirlineSchedules; track airline){
+          <div class="row rounded shadow width-100 border mt-5">
+            <div class="col d-flex justify-content-between m-3 align-items-center">
+              <div class="col-3 flights" id="flightName">
+                {{ airline.airlineName }} <br />
+                {{ airline.flightNumber }}
+              </div>
+              <div class="col-6 flights" id="fromAndTO">
+                <div class="row">
+                  <div class="col-4">
+                    {{ airline.departureAirport }}<br />
+                    {{ airline.departureTime }}
+                  </div>
+                  <div class="col-4">
+                    {{
+                      calculateTimeDifference(
+                        airline.departureTime,
+                        airline.arrivalTime
+                      )
+                    }}
+                    <hr />
+        
+                    {{ airline.departureDate | date:'dd-MM-yyyy' }}
+                  </div>
+                  <div class="col-4">
+                    {{ airline.arrivalAirport }}<br />
+                    {{ airline.arrivalTime }}
+                  </div>
+                </div>
+              </div>
+              <div
+                class="col-3 flights d-flex justify-content-between align-items-center pl-5"
+                id="priceDetails"
+              >
+                <div>
+                  @if(selectedOption=="Business"){<span style="font-size: 16px; font-weight: bold"
+                    >₹ {{ calculatePrice(airline.price) | number : "1.0-0" }}</span
+                  >}@else {
+                    <span style="font-size: 16px; font-weight: bold"
+                    >₹ {{ (airline.price ) | number : "1.0-0" }}</span
+                  >
+                  }
+                  <br />
+                  <span style="font-size: 10px">/per head</span>
+                </div>
+        
+                <div>
+                  <button
+                    class="btn btn block mt-2"
+                    style="background-color: #fc790d; height: 40px; width: 110px"
+                    (click)="openModal(airline)"
+                    data-bs-toggle="modal" data-bs-target="#exampleModalCenter"
+                  >
+                    Book now
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+          }
+          <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document"  >
+                <div class="modal-content " style="width: 800px; margin-left: 180px; ">
+                    <div class="modal-body "  >
+                      <div class="container " >
+                        <div class="row justify-content-center ">
+                          <div class="col-md-8">
+                            <div class="card confirmCard border ">
+                              <div class="card-header text-center" style="background-color: #fc790d;">
+                                <h3>Flight Details</h3>
+                              </div>
+                              <div class="card-body " >
+                                <div class=" fs-3 " style="text-align: center; margin-top: 40px;" >
+                                <p class="card-text"><strong>{{confirmBookingDetails.departureAirport}}</strong> <img src="../../../assets/flight-icon.png" alt="" width="30px"> <strong>{{confirmBookingDetails.arrivalAirport}}</strong></p>
+                                <p class="card-text  " style="margin-top: -10px; font-size: 14px;" >{{confirmBookingDetails.departureDate}} | {{confirmBookingDetails.departureTime}}</p>
+                                </div>
+                                <div class=" row subBody d-flex justify-content-between m-5" >
+                                    <img src="../../../assets/flight logo.png" alt="img" style="display: inline; width: 40px;"><p style="color: grey; margin-bottom: 15px;"> <strong style="color: rgb(24, 24, 24);">{{confirmBookingDetails.airlineName}} </strong> | {{confirmBookingDetails.flightNumber}}</p>
+                                      
+                                      <div class="col-5 sub"> 
+                                          <p style="color: grey;" >{{confirmBookingDetails.departureDate}}</p>
+                                          <p style="font-size: 22px;"> {{confirmBookingDetails.departureTime }}</p>
+                                          <p> {{confirmBookingDetails.departureAirport}}</p>
+                                          <p style="color: grey; font-size: 12px;"> {{confirmBookingDetails.departureAirportName}}</p>
+                                      </div>
+                                      <div class="col-2 sub " style="text-align: center;">
+                                        <img src="../../../assets/flight-icon.png" alt="" width="30px">
+
+                                      </div>
+                                      <div class="col-5 sub " style="text-align: end;">
+                                          <p style="color: grey;" >{{confirmBookingDetails.arrivalDate}}</p>
+                                          <p style="font-size: 22px;"> {{confirmBookingDetails.arrivalTime}}</p>
+                                          <p>{{confirmBookingDetails.arrivalAirport}}</p>
+                                          <p style="color: grey; font-size: 12px;"> {{confirmBookingDetails.arrivalAirportName}}</p>
+                                      </div>
+                                </div>
+                                <div class="row m-3 p-2" style="text-align: center; background-color: white;" >
+                                  <div class="col-4">Available Seats : {{confirmBookingDetails.availableSeats}}</div>
+                                  <div class="col-4">No. of Passenger: {{travellers}}</div>
+                                  
+                                  @if(selectedOption=='Business'){
+                                    @if(calculateOffer()>0){
+                                      <div class="col-4">Total Price : <strong>{{totaloPriceAfterOfferApplied(calculatePrice(confirmBookingDetails.totalPrice)) | number : "1.0-0"}}</strong></div>
+                                    }@else{
+                                      <div class="col-4">Total Price : <strong>{{calculatePrice(confirmBookingDetails.totalPrice) | number : "1.0-0"}}</strong></div>
+                                    }
+                                  }@else {
+
+                                    @if(calculateOffer()>0){
+                                      <div class="col-4">Total Price : <strong>{{totaloPriceAfterOfferApplied(confirmBookingDetails.totalPrice) | number : "1.0-0"}}</strong></div>
+                                    }@else{
+                                      <!-- <div class="col-4">Total Price : <strong>{{calculatePrice(confirmBookingDetails.totalPrice) | number : "1.0-0"}}</strong></div> -->
+                                      <div class="col-4">Total Price: <strong>{{confirmBookingDetails.totalPrice}}</strong></div>
+
+                                    }
+                                  <!-- <div class="col-4">Total Price: <strong>{{confirmBookingDetails.totalPrice}}</strong></div> -->
+
+                                  }
+                                  
+                                </div>
+                                
+                                
+                              </div>
+                              @if(calculateOffer()>0){
+                                <div class="offer bg-success text-center text-light">
+                                  <span>Offer Apllied: {{calculateOffer()*100}}%</span>
+                                </div>
+                              }
+                              
+                              <div class="modal-footer p-3 ">
+                                @if(getStatus()){
+                                  <button type="button" class="btn btn-warning" style="margin-right: 20px; height: 50px; width: 140px;"   (click)="onReschedule()" >Reschedule</button>
+                                }
+                                
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" style="margin-right: 20px; height: 50px; width: 140px;">Close</button>
+                                <button type="button" class="btn btn-success" style="margin-right: 20px; height: 50px; width: 140px;" (click)="onConfirmBooking()">Confirm Booking</button>
+                                
+                                <!-- <button (click)="cc()">cc</button> -->
+                            </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      
+                    </div>
+              
+                </div>
+            <!-- </div> -->
+        </div>
+        
+        
+        <div id="cancelToast" class="toast-container position-fixed top-5 end-0 p-5" style="z-index: 1050;">
+          <div class="toast" role="alert" aria-live="assertive" aria-atomic="true" [ngClass]="{ 'show': isToastVisible }">
+            <div class="toast-header">
+              <strong class="me-auto"><i class="bi bi-bell text-warning"></i>Notification</strong>
+              <button type="button" class="btn-close p-3" (click)="hideToast()" aria-label="Close"></button>
+            </div>
+            <div class="toast-body" style="height: 40px;">
+              Your Booking Cancelled Successfully.
+          <!-- <p> Booking Id: {{canceledBookingId}}</p> -->
+              
+            </div>
+          </div>
+        </div>
+        <div id="confirmToast" class="toast-container position-fixed top-5 end-0 p-5" style="z-index: 1050;">
+          <div class="toast" role="alert" aria-live="assertive" aria-atomic="true" [ngClass]="{ 'show': isToastVisible1 }">
+            <div class="toast-header">
+              <strong class="me-auto"><i class="bi bi-bell text-warning"></i>Notification</strong>
+              <button type="button" class="btn-close p-3" (click)="hideToast()" aria-label="Close"></button>
+            </div>
+            <div class="toast-body" style="height: 40px;">
+              Your ticket Booked Successfully.
+          <!-- <p> Booking Id: {{canceledBookingId}}</p> -->
+              
+            </div>
+          </div>
+        </div>
